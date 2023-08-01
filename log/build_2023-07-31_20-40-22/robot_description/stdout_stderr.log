@@ -1,0 +1,30 @@
+running develop
+running egg_info
+creating robot_description.egg-info
+writing robot_description.egg-info/PKG-INFO
+writing dependency_links to robot_description.egg-info/dependency_links.txt
+writing entry points to robot_description.egg-info/entry_points.txt
+writing requirements to robot_description.egg-info/requires.txt
+writing top-level names to robot_description.egg-info/top_level.txt
+writing manifest file 'robot_description.egg-info/SOURCES.txt'
+reading manifest file 'robot_description.egg-info/SOURCES.txt'
+writing manifest file 'robot_description.egg-info/SOURCES.txt'
+running build_ext
+Creating /home/luismilczarek/DangerZone/FURG/aic3/robot_ws/install/robot_description/lib/python3.8/site-packages/site.py
+Creating /home/luismilczarek/DangerZone/FURG/aic3/robot_ws/install/robot_description/lib/python3.8/site-packages/robot-description.egg-link (link to .)
+
+Installed /home/luismilczarek/DangerZone/FURG/aic3/robot_ws/build/robot_description
+running install_data
+creating /home/luismilczarek/DangerZone/FURG/aic3/robot_ws/install/robot_description/share/ament_index
+creating /home/luismilczarek/DangerZone/FURG/aic3/robot_ws/install/robot_description/share/ament_index/resource_index
+creating /home/luismilczarek/DangerZone/FURG/aic3/robot_ws/install/robot_description/share/ament_index/resource_index/packages
+copying resource/robot_description -> /home/luismilczarek/DangerZone/FURG/aic3/robot_ws/install/robot_description/share/ament_index/resource_index/packages
+copying package.xml -> /home/luismilczarek/DangerZone/FURG/aic3/robot_ws/install/robot_description/share/robot_description
+creating /home/luismilczarek/DangerZone/FURG/aic3/robot_ws/install/robot_description/share/robot_description/config
+copying config/nav2_params.yaml -> /home/luismilczarek/DangerZone/FURG/aic3/robot_ws/install/robot_description/share/robot_description/config
+creating /home/luismilczarek/DangerZone/FURG/aic3/robot_ws/install/robot_description/share/robot_description/urdf
+copying urdf/turtlebot3_waffle_pi.urdf -> /home/luismilczarek/DangerZone/FURG/aic3/robot_ws/install/robot_description/share/robot_description/urdf
+copying urdf/turtlebot3_waffle.urdf -> /home/luismilczarek/DangerZone/FURG/aic3/robot_ws/install/robot_description/share/robot_description/urdf
+creating /home/luismilczarek/DangerZone/FURG/aic3/robot_ws/install/robot_description/share/robot_description/models
+copying models/model.sdf -> /home/luismilczarek/DangerZone/FURG/aic3/robot_ws/install/robot_description/share/robot_description/models
+copying models/model-pi.sdf -> /home/luismilczarek/DangerZone/FURG/aic3/robot_ws/install/robot_description/share/robot_description/models

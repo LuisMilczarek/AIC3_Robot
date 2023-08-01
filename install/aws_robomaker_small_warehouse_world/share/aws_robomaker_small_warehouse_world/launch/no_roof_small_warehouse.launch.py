@@ -1,0 +1,1 @@
+/home/luismilczarek/DangerZone/FURG/aic3/robot_ws/src/aws-robomaker-small-warehouse-world/launch/no_roof_small_warehouse.launch.py
