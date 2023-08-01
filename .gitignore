@@ -1,5 +1,5 @@
-./build/
-./install/
-./log/
-./src/aws-robomaker-small-warehouse-world/
-./src/aws-robomaker-small-warehouse-world/*
+build
+install
+log
+src/aws-robomaker-small-warehouse-world
+
