@@ -61,7 +61,7 @@ def generate_launch_description():
     
     declare_robot_name_cmd = DeclareLaunchArgument(
         'robot_name',
-        default_value='turtlebot3_waffle',
+        default_value='aic3_robot',
         description='name of the robot')
     
     declare_rviz_config_file = DeclareLaunchArgument(
@@ -131,11 +131,8 @@ def generate_launch_description():
     ld.add_action(start_gazebo_spawner_cmd)
     ld.add_action(start_navigation_cmd)
     ld.add_action(start_slam_toolbox_online_async_cmd)
-    # ld.add_action(rviz_cmd)
+    
     ld.add_action(start_rviz_cmd)
     ld.add_action(exit_event_handler)
-    # ld.add_action(start_map_server)
-    # ld.add_action(start_slam_toolbox_cmd)
-
-
+   
     return ld
