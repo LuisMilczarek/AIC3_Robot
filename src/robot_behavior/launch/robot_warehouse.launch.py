@@ -3,15 +3,15 @@ import os
 
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription,GroupAction,DeclareLaunchArgument, EmitEvent, RegisterEventHandler
+from launch.actions import IncludeLaunchDescription,DeclareLaunchArgument, EmitEvent, RegisterEventHandler#,GroupAction
 from launch.event_handlers import OnProcessExit
 from launch.events import Shutdown
-from launch.conditions import IfCondition, UnlessCondition
+# from launch.conditions import IfCondition, UnlessCondition
 from launch.substitutions import LaunchConfiguration
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch_ros.actions import Node, SetParameter
-from launch_ros.descriptions import ParameterFile
-from nav2_common.launch import RewrittenYaml
+from launch_ros.actions import Node #SetParameter
+# from launch_ros.descriptions import ParameterFile
+# from nav2_common.launch import RewrittenYaml
 
 def generate_launch_description():
 
@@ -56,7 +56,7 @@ def generate_launch_description():
     
     declare_robot_sdf_cmd = DeclareLaunchArgument(
         'robot_sdf',
-        default_value=os.path.join(description_dir, 'models','model-pi.sdf'),
+        default_value=os.path.join(description_dir, 'models','model.sdf'),
         description='Full path to robot sdf file to spawn the robot in gazebo')
     
     declare_robot_name_cmd = DeclareLaunchArgument(

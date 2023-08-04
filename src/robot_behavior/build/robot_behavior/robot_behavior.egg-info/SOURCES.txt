@@ -12,3 +12,4 @@ robot_behavior.egg-info/entry_points.txt
 robot_behavior.egg-info/requires.txt
 robot_behavior.egg-info/top_level.txt
 robot_behavior.egg-info/zip-safe
+rviz/robot.rviz
