@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import os
 
 from ament_index_python.packages import get_package_share_directory
@@ -25,8 +25,12 @@ def generate_launch_description():
     warehouse_launch_path = os.path.join(warehouse_pkg_dir, 'launch')
     bringup_dir = get_package_share_directory("nav2_bringup")
     bringup_launch_dir = os.path.join(bringup_dir,"launch")
+
+    navigation_dir = get_package_share_directory("robot_navigation")
     # params_file = LaunchConfiguration('params_file')
     rviz_config_file = LaunchConfiguration("rviz_config_file")
+    params_file = LaunchConfiguration('params_file')
+
 
 
     # configured_params = ParameterFile(
@@ -51,7 +55,7 @@ def generate_launch_description():
     
     declare_params_file_cmd = DeclareLaunchArgument(
         'params_file',
-        default_value=os.path.join(description_dir, 'config', 'nav2_params.yaml'),
+        default_value=os.path.join(navigation_dir, 'config', 'nav2_params.yaml'),
         description='Full path to the ROS2 parameters file to use for all launched nodes')
     
     declare_robot_sdf_cmd = DeclareLaunchArgument(
@@ -68,6 +72,7 @@ def generate_launch_description():
         'rviz_config_file',
         default_value=os.path.join(pkg_dir,"rviz","robot.rviz"),
         description='rviz config file name')
+    
     
     urdf = os.path.join(description_dir, 'urdf', 'turtlebot3_waffle_pi.urdf')
     with open(urdf, 'r') as infp:
@@ -102,7 +107,12 @@ def generate_launch_description():
     )
 
     start_navigation_cmd = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource([bringup_launch_dir,"/navigation_launch.py"])
+        PythonLaunchDescriptionSource([bringup_launch_dir,"/navigation_launch.py"]),
+        launch_arguments={
+            "params_file": params_file,
+            "use_namespace":"false",
+            "namespace":""
+        }.items()
     )
 
     start_rviz_cmd = Node(
@@ -125,6 +135,7 @@ def generate_launch_description():
     ld.add_action(declare_params_file_cmd)
     ld.add_action(declare_robot_sdf_cmd)
     ld.add_action(declare_rviz_config_file)
+    # ld.add_action(declare_params_file)
 
     ld.add_action(warehouse_world_cmd)
     ld.add_action(start_robot_state_publisher_cmd)
