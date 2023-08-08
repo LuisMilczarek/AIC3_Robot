@@ -393,8 +393,8 @@
           <plugin name="camera_driver" filename="libgazebo_ros_camera.so">
             <ros>
               <!-- <namespace>test_cam</namespace> -->
-              <!-- <remapping>image_raw:=image_demo</remapping> -->
-              <!-- <remapping>camera_info:=camera_info_demo</remapping> -->
+              <remapping>image_raw:=/robot_vision/rvb/image_rgb</remapping>
+              <remapping>camera_info:=/robot_vision/rvb/camera_info</remapping>
             </ros>
             <!-- camera_name>omit so it defaults to sensor name</camera_name-->
             <!-- frame_name>omit so it defaults to link name</frameName-->

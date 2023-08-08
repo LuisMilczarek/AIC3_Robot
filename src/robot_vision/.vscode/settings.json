@@ -1,0 +1,26 @@
+{
+    "python.autoComplete.extraPaths": [
+        "/home/luismilczarek/DangerZone/FURG/aic3/robot_ws/build/robot_vision",
+        "/home/luismilczarek/DangerZone/FURG/aic3/robot_ws/install/robot_vision/lib/python3.8/site-packages",
+        "/home/luismilczarek/DangerZone/FURG/aic3/robot_ws/build/robot_navigation",
+        "/home/luismilczarek/DangerZone/FURG/aic3/robot_ws/install/robot_navigation/lib/python3.8/site-packages",
+        "/home/luismilczarek/DangerZone/FURG/aic3/robot_ws/build/robot_description",
+        "/home/luismilczarek/DangerZone/FURG/aic3/robot_ws/install/robot_description/lib/python3.8/site-packages",
+        "/home/luismilczarek/DangerZone/FURG/aic3/robot_ws/build/robot_behavior",
+        "/home/luismilczarek/DangerZone/FURG/aic3/robot_ws/install/robot_behavior/lib/python3.8/site-packages",
+        "/opt/ros/foxy/lib/python3.8/site-packages",
+        "/opt/ros/noetic/lib/python3/dist-packages"
+    ],
+    "python.analysis.extraPaths": [
+        "/home/luismilczarek/DangerZone/FURG/aic3/robot_ws/build/robot_vision",
+        "/home/luismilczarek/DangerZone/FURG/aic3/robot_ws/install/robot_vision/lib/python3.8/site-packages",
+        "/home/luismilczarek/DangerZone/FURG/aic3/robot_ws/build/robot_navigation",
+        "/home/luismilczarek/DangerZone/FURG/aic3/robot_ws/install/robot_navigation/lib/python3.8/site-packages",
+        "/home/luismilczarek/DangerZone/FURG/aic3/robot_ws/build/robot_description",
+        "/home/luismilczarek/DangerZone/FURG/aic3/robot_ws/install/robot_description/lib/python3.8/site-packages",
+        "/home/luismilczarek/DangerZone/FURG/aic3/robot_ws/build/robot_behavior",
+        "/home/luismilczarek/DangerZone/FURG/aic3/robot_ws/install/robot_behavior/lib/python3.8/site-packages",
+        "/opt/ros/foxy/lib/python3.8/site-packages",
+        "/opt/ros/noetic/lib/python3/dist-packages"
+    ]
+}

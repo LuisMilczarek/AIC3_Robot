@@ -1,7 +1,6 @@
-import os
 from setuptools import setup
-from glob import glob
-package_name = 'robot_navigation'
+
+package_name = 'robot_recognition'
 
 setup(
     name=package_name,
@@ -11,8 +10,6 @@ setup(
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
-        (os.path.join("share",package_name),glob("launch/*.launch.*")),
-        (os.path.join("share",package_name,"config"),glob("config/*.yaml")),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
@@ -23,6 +20,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
+            'aruco_recognition = robot_recognition.aruco_recognition:main'
         ],
     },
 )
