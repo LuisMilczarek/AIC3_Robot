@@ -3,7 +3,7 @@ import os
 
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription,DeclareLaunchArgument, EmitEvent, RegisterEventHandler,GroupAction
+from launch.actions import IncludeLaunchDescription,DeclareLaunchArgument, EmitEvent, RegisterEventHandler, SetEnvironmentVariable
 from launch.event_handlers import OnProcessExit
 from launch.events import Shutdown
 from launch.conditions import IfCondition, UnlessCondition
@@ -70,6 +70,9 @@ def generate_launch_description():
     with open(urdf, 'r') as infp:
         robot_description = infp.read()
 
+    # set_envs = SetEnvironmentVariable(name='GAZEBO_MODEL_PATH', value='')
+
+
     start_robot_state_publisher_cmd = Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',
@@ -88,10 +91,10 @@ def generate_launch_description():
             '-file', robot_sdf,
             '-x', pose['x'], '-y', pose['y'], '-z', pose['z'],
             '-R', pose['R'], '-P', pose['P'], '-Y', pose['Y']])
-    
+
 
     warehouse_world_cmd = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource([warehouse_launch_path, '/small_warehouse.launch.py'])
+        PythonLaunchDescriptionSource([warehouse_launch_path, '/small_warehouse_launch.py'])
     )
 
     start_navigation_cmd = IncludeLaunchDescription(
@@ -129,10 +132,12 @@ def generate_launch_description():
     ld.add_action(declare_rviz_config_file)
     ld.add_action(declare_use_rviz)
 
+    # ld.add_action(set_envs)
     ld.add_action(warehouse_world_cmd)
+    
     ld.add_action(start_robot_state_publisher_cmd)
     ld.add_action(start_gazebo_spawner_cmd)
-    ld.add_action(start_navigation_cmd)
+    # ld.add_action(start_navigation_cmd)
     # ld.add_action(start_slam_toolbox_online_async_cmd)
     
     ld.add_action(start_rviz_cmd)

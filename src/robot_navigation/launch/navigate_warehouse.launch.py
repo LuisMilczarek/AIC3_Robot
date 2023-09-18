@@ -3,7 +3,7 @@ import os
 
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription,DeclareLaunchArgument, EmitEvent, RegisterEventHandler#,GroupAction
+from launch.actions import IncludeLaunchDescription,DeclareLaunchArgument, EmitEvent, RegisterEventHandler,GroupAction
 from launch.event_handlers import OnProcessExit
 from launch.events import Shutdown
 # from launch.conditions import IfCondition, UnlessCondition
@@ -20,6 +20,7 @@ def generate_launch_description():
     # bringup_dir = get_package_share_directory('nav2_bringup')
     pkg_dir = get_package_share_directory("robot_navigation")
     warehouse_pkg_dir = get_package_share_directory('aws_robomaker_small_warehouse_world')
+    robot_world_pkg_dir = get_package_share_directory('robot_world')
     bringup_dir = get_package_share_directory("nav2_bringup")
 
     remappings = [('/tf', 'tf'),
@@ -49,7 +50,7 @@ def generate_launch_description():
     
     declare_map_file = DeclareLaunchArgument(
         'map',
-        default_value=os.path.join(warehouse_pkg_dir,"maps","002","map.yaml"),
+        default_value=os.path.join(robot_world_pkg_dir, "maps","amazon_warehouse.yaml"),
         description='rviz config file name')
     
     declare_params_file = DeclareLaunchArgument(
@@ -75,31 +76,29 @@ def generate_launch_description():
     #                           'params_file': params_file,
     #                           'use_lifecycle_mgr': 'false'}.items())
 
-    map_server_cmd = Node(
-        package='nav2_map_server',
-        executable='map_server',
-        name='map_server',
-        output='screen',
-        parameters=[configured_params],
-        remappings=remappings)
+    navigation_cmd = GroupAction([
+        # Node(
+        #     package='nav2_map_server',
+        #     executable='map_server',
+        #     name='map_server',
+        #     output='screen',
+        #     parameters=[configured_params]),
     
-    amcl_cmd = Node(
-        package='nav2_amcl',
-        executable='amcl',
-        name='amcl',
-        output='screen',
-        parameters=[configured_params],
-        remappings=remappings)
-    
-    lifecycle_manager = Node(
-        package='nav2_lifecycle_manager',
-        executable='lifecycle_manager',
-        name='lifecycle_manager_localization',
-        output='screen',
-        parameters=[{'use_sim_time': "true"},
-                    {'autostart': "true"},
-                    {'node_names': lifecycle_nodes}],
-        remappings=remappings)
+        # Node(
+        #     package='nav2_amcl',
+        #     executable='amcl',
+        #     name='amcl',
+        #     output='screen',
+        #     parameters=[configured_params]),
+        # Node(
+        #     package='nav2_lifecycle_manager',
+        #     executable='lifecycle_manager',
+        #     name='lifecycle_manager_localization',
+        #     output='screen',
+        #     parameters=[{'use_sim_time': True},
+        #                 {'autostart': True},
+        #                 {'node_names': lifecycle_nodes}])
+                        ])
 
     
     ld = LaunchDescription()
@@ -108,10 +107,11 @@ def generate_launch_description():
     ld.add_action(declare_params_file)
     ld.add_action(declare_use_rviz_cmd)    
 
+    # ld.add_action(navigation_cmd)
     ld.add_action(start_world_and_navigation_cmd)
-    ld.add_action(map_server_cmd)
-    ld.add_action(amcl_cmd)
-    ld.add_action(lifecycle_manager)
+    # ld.add_action(map_server_cmd)
+    # ld.add_action(amcl_cmd)
+    # ld.add_action(lifecycle_manager)
     # ld.add_action(launch_localization_cmd)
     
     return ld
