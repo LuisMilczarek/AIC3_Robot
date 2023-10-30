@@ -7,6 +7,8 @@
       },
       "includePath": [
         "/opt/ros/foxy/include/**",
+        "/home/luismilczarek/DangerZone/FURG/aic3/robot2_ws/src/robot_description/include/**",
+        "/home/luismilczarek/DangerZone/FURG/aic3/robot2_ws/src/robot_world/include/**",
         "/usr/include/**"
       ],
       "name": "ROS",

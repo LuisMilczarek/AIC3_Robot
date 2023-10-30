@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(robot_world)
+project(robot_description)
 
 # Default to C99
 if(NOT CMAKE_C_STANDARD)
@@ -17,14 +17,15 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
-# find_package(ament_cmake REQUIRED)
 # uncomment the following section in order to fill in
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
 install(
-  DIRECTORY launch models
+  DIRECTORY models urdf
   DESTINATION share/${PROJECT_NAME}
 )
+
+ament_environment_hooks("${CMAKE_CURRENT_SOURCE_DIR}/env-hooks/robot_description.dsv.in")
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)

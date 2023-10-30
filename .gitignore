@@ -1,5 +1,5 @@
+.vscode
 build
-install
 log
+install
 src/aws-robomaker-small-warehouse-world
-
