@@ -10,12 +10,20 @@ from launch_ros.actions import Node
 
 def generate_launch_description():
     warehouse_pkg_dir = get_package_share_directory('aws_robomaker_small_warehouse_world')
-    warehouse_launch_path = os.path.join(warehouse_pkg_dir, 'launch')
+    # warehouse_launch_path = os.path.join(warehouse_pkg_dir, 'launch')
+    world_bringup =  get_package_share_directory('robot_world')
+    world_bringup_launch_dir = os.path.join(world_bringup, "launch")
     description_dir = get_package_share_directory("robot_description")
     bringup_dir = get_package_share_directory("robot_bringup")
 
-    warehouse_world_cmd = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource([warehouse_launch_path, '/small_warehouse.launch.py'])
+    vision_pkg_share = get_package_share_directory("robot_vision")
+
+    # warehouse_world_cmd = IncludeLaunchDescription(
+    #     PythonLaunchDescriptionSource([warehouse_launch_path, '/small_warehouse.launch.py'])
+    # )
+
+    world_cmd = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource([world_bringup_launch_dir, "/world_bringup.launch.py"])
     )
 
     urdf = os.path.join(
@@ -58,6 +66,10 @@ def generate_launch_description():
             "params_file": os.path.join(bringup_dir, "params", "nav2_params.yaml")}.items(),
     )
 
+    start_aruco_detection = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource([vision_pkg_share,"/ArucoDetection.launch.py"])
+    )
+
     start_rviz = Node(
         package="rviz2",
         executable="rviz2",
@@ -67,7 +79,8 @@ def generate_launch_description():
 
     ld = LaunchDescription()
     # ld.add_action(start_rviz)
-    ld.add_action(warehouse_world_cmd)
+    ld.add_action(start_aruco_detection)
+    ld.add_action(world_cmd)
     ld.add_action(start_gazebo_spawner_cmd)
     ld.add_action(start_state_publisher)
     ld.add_action(start_nav2)

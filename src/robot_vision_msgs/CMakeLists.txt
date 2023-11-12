@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(robot_world)
+project(robot_vision_msgs)
 
 # Default to C99
 if(NOT CMAKE_C_STANDARD)
@@ -17,24 +17,19 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
-# find_package(ament_cmake REQUIRED)
 # uncomment the following section in order to fill in
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
-find_package(ament_cmake_python REQUIRED)
 
-install(
-  DIRECTORY launch models
-  DESTINATION share/${PROJECT_NAME}
-)
+find_package(rosidl_default_generators REQUIRED)
+find_package(geometry_msgs REQUIRED)
 
-ament_python_install_package(${PROJECT_NAME})
 
-install(
-  PROGRAMS
-    scripts/aruco_tf_static.py
-  DESTINATION lib/${PROJECT_NAME}
-)
+rosidl_generate_interfaces(${PROJECT_NAME}
+  "msg/ArucoDetection.msg"
+  "msg/ArucoRecognitions.msg"
+  DEPENDENCIES geometry_msgs
+ )
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
