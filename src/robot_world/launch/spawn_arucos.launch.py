@@ -9,7 +9,8 @@ from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 
 def generate_launch_description():
-    world_dir = get_package_share_directory("robot_world")
+    pkg_name = "robot_world"
+    world_dir = get_package_share_directory(pkg_name)
 
 
     pose = {'x': LaunchConfiguration('x_pose', default='0.00'),
@@ -28,9 +29,16 @@ def generate_launch_description():
             '-file', os.path.join(world_dir, 'models',"arucos","marker",'model.sdf'),
             '-x', pose['x'], '-y', pose['y'], '-z', pose['z'],
             '-R', pose['R'], '-P', pose['P'], '-Y', pose['Y']])
+
+    start_aruco_tf_publisher = Node(
+        package=pkg_name,
+        executable="aruco_tf_static.py",
+        output="screen"
+    )
     
    
 
     ld = LaunchDescription()
     ld.add_action(start_gazebo_spawner_cmd)
+    ld.add_action(start_aruco_tf_publisher)
     return ld
