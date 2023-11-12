@@ -4,11 +4,14 @@ import cv2 as cv
 import numpy as np
 
 from rclpy.node import Node
+from rclpy.duration import Duration
 from cv_bridge import CvBridge
 
 from sensor_msgs.msg import Image
 from sensor_msgs.msg import CameraInfo
 from robot_vision_msgs.msg import ArucoRecognitions, ArucoDetection
+
+from visualization_msgs.msg import Marker, MarkerArray
 
 from tf_transformations import quaternion_from_euler
 
@@ -18,6 +21,7 @@ class ArucoRecognition(Node):
         self.subscriber = self.create_subscription(Image, "/camera/image_raw",self.image_callback,1)
         self.camera_info_sub = self.create_subscription(CameraInfo, "/camera/camera_info",self.get_camera_info,1)
         self.debug_publisher = self.create_publisher(Image, "/robot_vision/ar/debug", 1)
+        self.debug3D_publisher = self.create_publisher(MarkerArray, "/robot_vision/ar/debug3D", 1)
         self.aruco_publisher = self.create_publisher(ArucoRecognitions, "/robot_vision/ar/recognitions", 1)
         self.bridge = CvBridge()
         self.i = 0
@@ -80,10 +84,34 @@ class ArucoRecognition(Node):
                 cv.drawFrameAxes(color_img,self.cam_mat, self.dist_coef,rVec,tVec,1.0)
                 # self.get_logger().info("HI")
             self.aruco_publisher.publish(recognitions)
+            self.publish_debug_marker(recognitions)
         self.debug_publisher.publish(self.bridge.cv2_to_imgmsg(color_img,encoding=img.encoding,header=img.header))
         
 
         self.i += 1
+
+    def publish_debug_marker(self, recognitions : ArucoRecognitions):
+        array = MarkerArray()
+        for i in recognitions.detections:
+            marker = Marker()
+            marker.header = i.pose.header
+            marker.id = i.id
+            marker.type = Marker.CUBE
+            marker.action = Marker.ADD
+            marker.pose = i.pose.pose
+            marker.scale.x = 1.0
+            marker.scale.y = 1.0
+            marker.scale.z = 1.0
+            marker.color.r = 255.0
+            marker.color.g = 0.0
+            marker.color.b = 0.0
+            marker.color.a = 1.0
+            marker.lifetime = Duration(seconds=10).to_msg()
+
+            array.markers.append(marker)
+
+        self.debug3D_publisher.publish(array)
+
 
     def get_camera_info(self, msg : CameraInfo) -> None:
         self.cam_mat = np.array(msg.k).reshape((3,3))
