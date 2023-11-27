@@ -15,6 +15,7 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
+cmake_policy(SET CMP0009 NEW)
 # find dependencies
 find_package(ament_cmake REQUIRED)
 # find_package(ament_cmake REQUIRED)
@@ -35,6 +36,8 @@ install(
     scripts/aruco_tf_static.py
   DESTINATION lib/${PROJECT_NAME}
 )
+
+ament_environment_hooks("${CMAKE_CURRENT_SOURCE_DIR}/env-hooks/robot_world.dsv.in")
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)

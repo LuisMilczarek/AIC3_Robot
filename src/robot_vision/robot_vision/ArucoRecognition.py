@@ -32,17 +32,17 @@ class ArucoRecognition(Node):
         self.dist_coef = None
         self.run = False
 
-        marker_size = 1
+        self.marker_size = .5
 
         # self.marker_points = np.array([[-marker_size / 2, marker_size / 2, 0],
         #                       [marker_size / 2, marker_size / 2, 0],
         #                       [marker_size / 2, -marker_size / 2, 0],
         #                       [-marker_size / 2, -marker_size / 2, 0]], dtype=np.float32)
         
-        self.marker_points = np.array([[marker_size / 2, marker_size / 2, 0],
-                              [-marker_size / 2, marker_size / 2, 0],
-                              [-marker_size / 2, -marker_size / 2, 0],
-                              [marker_size / 2, -marker_size / 2, 0]], dtype=np.float32)
+        self.marker_points = np.array([[self.marker_size / 2, self.marker_size / 2, 0],
+                              [-self.marker_size / 2, self.marker_size / 2, 0],
+                              [-self.marker_size / 2, -self.marker_size / 2, 0],
+                              [self.marker_size / 2, -self.marker_size / 2, 0]], dtype=np.float32)
 
     def image_callback(self, img : Image) -> None:
         if not self.run:
@@ -51,14 +51,15 @@ class ArucoRecognition(Node):
         # self.get_logger().info(f"Recebido {self.i}, Formato: {img.encoding}")
         color_img = self.bridge.imgmsg_to_cv2(img)
         gray_img = cv.cvtColor(color_img, cv.COLOR_RGB2GRAY)
-        corners, ids, rejected_img_points = self.dectector.detectMarkers(gray_img)
+        (corners, ids, rejected_img_points) = self.dectector.detectMarkers(gray_img)
         # self.get_logger().info(f"Corners :{corners}, Ids: {ids}, rejected: {rejected_img_points}")
 
         if ids is not None:
             recognitions = ArucoRecognitions()
-            recognitions.size = len(ids[0])
+            ids = ids.flatten()
+            recognitions.size = len(ids)
             # self.get_logger().error(f"IDS: {ids}")
-            for c , id in zip(corners, ids[0]):
+            for c , id in zip(corners, ids):
                 detection = ArucoDetection()
                 _, rVec, tVec = cv.solvePnP(self.marker_points, c, self.cam_mat, self.dist_coef)
                 tVec = tVec[:,0]
@@ -81,7 +82,7 @@ class ArucoRecognition(Node):
                 detection.pose.pose.orientation.w = q[3]
                 recognitions.detections.append(detection)
 
-                cv.drawFrameAxes(color_img,self.cam_mat, self.dist_coef,rVec,tVec,1.0)
+                cv.drawFrameAxes(color_img,self.cam_mat, self.dist_coef,rVec,tVec,self.marker_size)
                 # self.get_logger().info("HI")
             self.aruco_publisher.publish(recognitions)
             self.publish_debug_marker(recognitions)
@@ -99,9 +100,9 @@ class ArucoRecognition(Node):
             marker.type = Marker.CUBE
             marker.action = Marker.ADD
             marker.pose = i.pose.pose
-            marker.scale.x = 1.0
-            marker.scale.y = 1.0
-            marker.scale.z = 1.0
+            marker.scale.x = self.marker_size
+            marker.scale.y = self.marker_size
+            marker.scale.z = self.marker_size
             marker.color.r = 255.0
             marker.color.g = 0.0
             marker.color.b = 0.0
@@ -125,6 +126,9 @@ class ArucoRecognition(Node):
 def main(args=None):
     rclpy.init(args=args)
     node = ArucoRecognition()
-    rclpy.spin(node)
+    try:
+        rclpy.spin(node)
+    except KeyboardInterrupt:
+        pass
     node.destroy_node()
     rclpy.shutdown()

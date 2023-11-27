@@ -1,2 +1,1 @@
-prepend-non-duplicate;GAZEBO_MODEL_PATH;share/robot_world/models
 prepend-non-duplicate;GAZEBO_MODEL_PATH;share/robot_world/models/arucos
